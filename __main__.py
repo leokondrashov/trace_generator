@@ -71,6 +71,16 @@ def main():
     )
 
     gen_parser.add_argument(
+        '-s',
+        '--sustain',
+        required=True,
+        type=int,
+        metavar='integer',
+        help='Hold the target invocation rate for this period',
+        dest='sustain'
+    )
+
+    gen_parser.add_argument(
         '-stag',
         '--stagger',
         required=False,

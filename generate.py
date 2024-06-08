@@ -20,7 +20,7 @@ def generate(args):
 
     # =================== Generating inv.csv ===================
     # Compute total duration required for experiment
-    experiment_duration = args.num_of_funcs * (args.wait_duration * args.stabilisation_count + args.stagger_duration) - args.stagger_duration + 1
+    experiment_duration = args.num_of_funcs * (args.wait_duration * args.stabilisation_count + args.sustain + args.stagger_duration) - args.stagger_duration
 
     # Initialise the invocation pattern table with 0 and the corresponding headers
     inv = pd.DataFrame([[0] * experiment_duration] * args.num_of_funcs, columns=list(range(1, experiment_duration+1)))
@@ -33,7 +33,7 @@ def generate(args):
         # Generate the index of intermediate step values, if any
         intermediate_idx = []
         for j in range(args.stabilisation_count):
-            intermediate_idx.append(i*(args.wait_duration * args.stabilisation_count + args.stagger_duration) + j*args.wait_duration)
+            intermediate_idx.append(i*(args.wait_duration * args.stabilisation_count + args.sustain + args.stagger_duration) + j*args.wait_duration)
 
         # Generate the index of the final step value
         if intermediate_idx:
@@ -43,7 +43,7 @@ def generate(args):
 
         # Populate the invocation pattern accordingly
         inv.iloc[i, intermediate_idx] = invocation_intermediate_step
-        inv.iloc[i, final_idx:final_idx+1] = args.invocation_step
+        inv.iloc[i, final_idx:final_idx+args.sustain] = args.invocation_step
     
     inv_df["HashApp"] = hashApp
     inv_df["HashFunction"] = hashFunction
