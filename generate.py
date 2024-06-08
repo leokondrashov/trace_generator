@@ -48,16 +48,17 @@ def generate(args):
     inv_df["HashApp"] = hashApp
     inv_df["HashFunction"] = hashFunction
     inv_df["HashOwner"] = hashOwner
+    inv_df["Trigger"] = "queue"
     inv_df = pd.concat([inv_df, inv], axis=1)
 
     # =================== Generating mem.csv ===================
     for i in range(args.num_of_funcs):
-        mem_df.loc[i] = [hashApp[i], hashFunction[i], hashOwner[i], sampleCount] + [args.memory] * (len(mem_df.columns) - 4)
+        mem_df.loc[i] = [hashApp[i], hashOwner[i], hashFunction[i], sampleCount] + [args.memory] * (len(mem_df.columns) - 4)
 
 
     # =================== Generating run.csv ===================
     for i in range(args.num_of_funcs):
-        run_df.loc[i] = [hashApp[i], hashFunction[i], hashOwner[i], args.execution_duration, sampleCount] + [args.execution_duration] * (len(run_df.columns) - 5)
+        run_df.loc[i] = [hashFunction[i], hashOwner[i], hashApp[i], args.execution_duration, sampleCount] + [args.execution_duration] * (len(run_df.columns) - 5)
 
 
     # =================== Save generated files ===================
